@@ -1,7 +1,7 @@
 # oneTwoOne
 A simple extension to prevent students from using other 1:1 Chromebooks
 
-Special thanks to jay0lee for the original application, which served as the basis for my forked version. You can find the original code at https://github.com/jay0lee/oneTwoOne/. I'm grateful for their contributions to the open-source community!
+Credit goes to jay0lee for the original application, and to Matt Henry for his forked version which served as the basis for this version. You can find the original code at (https://github.com/jay0lee/oneTwoOne/, https://github.com/matthttam/oneTwoOne).
 
 # Early Testing Guide
 __WARNING__: The current version of this extension is customized for our specific district however it can still work just fine for others. Also, be sure to only deploy it to students.
@@ -35,10 +35,10 @@ If teachers don't get the extension, they'll be able to login to any device.
 1. admin.google.com > 3 bar menu at top left > Devices > Chrome management > Apps & extensions
 1. Choose student testing OU to the left.
 1. Yellow + circle at bottom right > yellow "grid" icon with tooltip "add Chrome app or extension by ID".
-1. Extension ID: ```jnanjcpghahljpllmojibnjehekidnnk```
+1. Extension ID: ``````
 1. Switch dropdown to "From a custom URL"
-1. URL: ```https://files.tradition1871.com/oneTwoOne/update.xml```
-1. Click save. Now in the list of extensions change ```jnanjcpghahljpllmojibnjehekidnnk``` from "Allow install" to "Force install". Click save at top right.
+1. URL: ``````
+1. Click save. Now in the list of extensions change `````` from "Allow install" to "Force install". Click save at top right.
 
 ### Things to test
 - It can take a while for changes to device location attribute to reach the device. Go to chrome://policy and force a refresh to speed up testing.
