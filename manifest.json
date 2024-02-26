@@ -1,17 +1,13 @@
 {
-  "update_url": "https://files.tradition1871.com/oneTwoOne/update.xml",
   "manifest_version": 3,
-  "name": "oneTwoOne Lockdown",
+  "name": "oneTwoOne",
   "short_name": "oneTwoOne",
-  "description": "Prevents students from logging into other student Chromebooks.",
-  "version": "2.1.13",
+  "description": "Defines and manages who should be able to sign into a device",
+  "version": "0.1",
   "background": {
     "service_worker": "background.js"
   },
   "minimum_chrome_version": "66",
-  "storage": {
-    "managed_schema": "schema.json"
-  },
   "permissions": [
     "identity",
     "identity.email",

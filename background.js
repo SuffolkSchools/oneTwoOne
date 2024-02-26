@@ -16,7 +16,7 @@ const convertToPromise = (block) => {
   });
 };
 
-getEnterpriseAttribute = function (item) {
+const getEnterpriseAttribute = (item) => {
   return convertToPromise((callback) => {
     if (chrome.enterprise?.deviceAttributes?.[item]) {
       chrome.enterprise.deviceAttributes[item](callback);
@@ -26,13 +26,13 @@ getEnterpriseAttribute = function (item) {
   });
 }
 
-getIdentity = function () {
+const getIdentity = () => {
   return convertToPromise((callback) => {
     chrome.identity.getProfileUserInfo(callback);
   });
 }
 
-async function get_data(callback) {
+const get_data = async (callback) => {
   const requiredData = ['location', 'assetid', 'directoryid', 'useremail'];
   const promises = [
     getEnterpriseAttribute('getDeviceAnnotatedLocation'), // 0 location
@@ -65,66 +65,11 @@ async function get_data(callback) {
       }
     }
   }
-
   callback(data);
 }
 
-function checkDeviceAuthorization(data) {
 
-
-  if (typeof data.location === 'undefined') {
-    // unmanaged device
-    console.log('Couldn\'t get managed device info. Is this device enrolled in your admin console and device location set? Not blocking anything');
-    return;
-  }
-
-  if (data.location.includes('*')) {
-    console.log('Device allows wildcard login, not blocking anything.');
-    return;
-  }
-
-  if (data.location.some(location => location.endsWith('@owensboro.kyschools.us'))) {
-    console.log('Device assigned to a staff member, not blocking anything.');
-    return;
-  }
-
-  if (data.location.includes(data.useremail)) {
-    console.log('Device has this user as allowed to login, not blocking anything.');
-    return;
-  }
-
-  console.log('Device does not have this user as allowed, BLOCKING ALL WEBSITES!');
-  applyBlockingRule();
-
-}
-
-chrome.runtime.onStartup.addListener(function () {
-  console.log('determining blocking status on startup.')
-  get_data(checkDeviceAuthorization);
-})
-
-chrome.runtime.onInstalled.addListener(function () {
-  console.log('determining blocking status on install.')
-  get_data(checkDeviceAuthorization);
-})
-
-/*function removeBlockingRule() {
-  chrome.declarativeNetRequest.getDynamicRules((rules) => {
-    const ruleExists = rules.some((rule) => rule.id === blockRuleID);
-    if (ruleExists) {
-      chrome.declarativeNetRequest.updateDynamicRules({
-        removeRuleIds: [blockRuleID]
-      }, () => {
-        console.log("block rule removed");
-      });
-    } else {
-      console.log("block rule not found");
-    }
-  });
-}*/
-
-function applyBlockingRule() {
-  //url = chrome.runtime.getURL("blocked.html")
+const applyBlockingRule = () => {
   chrome.declarativeNetRequest.updateSessionRules({
     addRules: [{
       id: blockRuleID,
@@ -144,3 +89,41 @@ function applyBlockingRule() {
     }]
   }, () => { console.log("block rule applied") });
 }
+
+
+
+//Main function that executes from event handlers
+const checkDeviceAuthorization = (data) => {
+
+  if (typeof data.location === 'undefined') {
+    // unmanaged device
+    console.log('Couldn\'t get managed device info. Is this device enrolled in your admin console and device location set? Not blocking anything');
+    return;
+  }
+
+  if (data.location.includes('*')) {
+    console.log('Device allows wildcard login, not blocking anything.');
+    return;
+  }
+
+  if (data.location.includes(data.useremail)) {
+    console.log('Device has this user as allowed to login, not blocking anything.');
+    return;
+  }
+
+  console.log('Device does not have this user as allowed, BLOCKING ALL WEBSITES!');
+  applyBlockingRule();
+
+}
+
+//EVENTS TO START SERVICE WORKER
+//=======================================================
+chrome.runtime.onStartup.addListener(function () {
+  console.log('determining blocking status on startup.')
+  get_data(checkDeviceAuthorization);
+})
+
+chrome.runtime.onInstalled.addListener(function () {
+  console.log('determining blocking status on install.')
+  get_data(checkDeviceAuthorization);
+})
