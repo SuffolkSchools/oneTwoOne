@@ -3,9 +3,9 @@
   "name": "OneTwoOne",
   "short_name": "OneTwoOne",
   "description": "Defines and manages who should be able to sign into a device",
-  "version": "0.2",
+  "version": "0.3",
   "icons": {
-    "128": "BozoSaysStopIcon.png"
+    "128": "logo.png"
   },
   "background": {
     "service_worker": "background.js"
