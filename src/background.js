@@ -100,13 +100,14 @@ const checkDeviceAuthorization = (data) => {
 	let blockRule = true;
 	if (typeof data.location === "undefined") {
 		if (typeof data.directoryid === "undefined") {
-			console.log("Empty location, blocking all sites");
-		} else {
 			// unmanaged device
 			console.log(
 				"Couldn't get managed device info. Is this device enrolled in your admin console and device location set? Not blocking anything"
 			);
 			blockRule = false;
+		} else {
+			console.log("Empty location, blocking all sites");
+			
 		}
 	} else if (data.location.includes("*")) {
 		console.log("Device allows wildcard login, not blocking anything.");
